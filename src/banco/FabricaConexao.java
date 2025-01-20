@@ -10,7 +10,7 @@ public class FabricaConexao {
 	
 	String stringConexao = "jdbc:mysql://localhost/faculdade?useTimezone=true&serverTimezone=UTC";
 	String usuario = "root";
-	String senha = "mysqlROOT";
+	String senha = "admin";
 	
 	Class.forName("com.mysql.cj.jdbc.Driver");
 	
