@@ -1,16 +1,26 @@
 package tela;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import banco.FabricaConexao;
+import dominio.Usuario;
+import util.CriptografiaUtils;
 
 public class CadastrarUsuario extends JFrame {
 
@@ -85,7 +95,70 @@ public class CadastrarUsuario extends JFrame {
 		contentPane.add(lblNewLabel_1_1_1);
 		
 		JButton btCadastrar = new JButton("Cadastrar");
+		btCadastrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					cadastrarUsuario();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
 		btCadastrar.setBounds(150, 307, 118, 23);
 		contentPane.add(btCadastrar);
+		//fim da criação
+	}
+
+	protected void cadastrarUsuario() throws ClassNotFoundException, SQLException {
+		String email = txtEmail.getText().toString();
+		String nome = txtNome.getText().toString();
+		String senha = new String(txtSenha.getPassword());
+		String senhaCriptografada = CriptografiaUtils.criptografarMD5(senha);
+		
+		if (nome == null || nome.isEmpty()) {
+			exibirMsgErro("Nome não pode ser vazio");
+			return;
+		}
+		
+		if (email == null || email.isEmpty()) {
+			exibirMsgErro("Email não pode ser vazio");
+			return;
+		}
+		if (senha == null || senha.isEmpty()) {
+			exibirMsgErro("Senha não pode ser vazio");
+			return;
+		}
+		
+		Usuario u = new Usuario();
+		u.setNome(nome);
+		u.setEmail(email);
+		u.setSenha(senhaCriptografada);
+		
+		Connection conexao = FabricaConexao.criarConexao();
+		String sql = "INSERT INTO usuario (nome,email,senha) VALUES (?,?,?)";
+		PreparedStatement comando = conexao.prepareStatement(sql);
+		
+		comando.setString(1, u.getNome());
+		comando.setString(2, u.getEmail());
+		comando.setString(3, u.getSenha());
+		comando.execute();
+		
+		comando.close();
+		conexao.close();
+		
+		exibirMsgErro("Usuário - " + nome + "- Cadastrado com sucesso!");
+		
+		txtNome.setText("");
+		txtSenha.setText("");
+		txtEmail.setText("");
+	}
+
+	private void exibirMsgErro(String string) {
+		JOptionPane.showMessageDialog(null, string);
+		
 	}
 }
