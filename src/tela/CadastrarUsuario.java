@@ -150,7 +150,7 @@ public class CadastrarUsuario extends JFrame {
 		comando.close();
 		conexao.close();
 		
-		exibirMsgErro("Usuário - " + nome + "- Cadastrado com sucesso!");
+		exibirMsgErro("Usuário " + nome + " Cadastrado com sucesso!");
 		
 		txtNome.setText("");
 		txtSenha.setText("");
