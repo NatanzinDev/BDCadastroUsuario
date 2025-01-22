@@ -24,7 +24,7 @@ public class UsuarioDao {
 		
 		if(resultado.next()) {
 			Usuario usuario = new Usuario();
-			usuario.setId(resultado.getInt("id_usuario"));
+			usuario.setId(resultado.getInt("id"));
 			usuario.setNome(resultado.getString("nome"));
 			usuario.setEmail(resultado.getString("email"));
 			usuario.setSenha(resultado.getString("senha"));

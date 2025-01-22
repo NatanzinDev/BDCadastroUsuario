@@ -1,18 +1,24 @@
 package tela;
 
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import java.awt.Font;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import banco.UsuarioDao;
+import dominio.Usuario;
+import util.CriptografiaUtils;
 
 public class Login extends JFrame {
 
@@ -77,14 +83,39 @@ public class Login extends JFrame {
 		JButton btEntrar = new JButton("Entrar");
 		btEntrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				fazerLogin();
+				try {
+					fazerLogin();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 		});
 		btEntrar.setBounds(138, 247, 202, 21);
 		contentPane.add(btEntrar);
 	}
 
-	protected void fazerLogin() {
+	protected void fazerLogin() throws ClassNotFoundException, SQLException {
+		String email = txtEmail.getText();
+		String senha = new String(txtSenha.getPassword());
+		String senhaCriptografado = CriptografiaUtils.criptografarMD5(senha);
+		
+		UsuarioDao dao = new UsuarioDao();
+		
+		Usuario u = dao.encontrarUsuarioPorEmailESenha(email, senhaCriptografado);
+		
+		if(u == null) {
+			JOptionPane.showMessageDialog(null, "Não foi encontrado usuários.");
+		}else {
+			Principal b = new Principal();
+			b.setLocationRelativeTo(null);
+			b.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			b.setVisible(true);
+		}
+		
 		
 		
 	}
