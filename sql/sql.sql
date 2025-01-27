@@ -7,7 +7,7 @@ create table aluno(
 	telefone text
     );
     
-    drop table aluno;
+    
 create table usuario(
 	id int not null auto_increment primary key,
 	email text,
