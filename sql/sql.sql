@@ -1,4 +1,5 @@
 create database faculdade;
+use faculdade;
 create table aluno(
 	id_aluno int not null auto_increment primary key,
 	nome text,
