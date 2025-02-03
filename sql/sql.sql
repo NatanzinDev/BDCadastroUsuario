@@ -10,9 +10,9 @@ create table aluno(
     
 create table usuario(
 	id int not null auto_increment primary key,
-	email text,
-	senha text,
-	nome text
+	email text not null,
+	senha text not null,
+	nome text not null
 );
 
 create table disciplina (
