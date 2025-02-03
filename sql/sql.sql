@@ -7,12 +7,21 @@ create table aluno(
 	telefone text
     );
     
-    drop table aluno;
+    
 create table usuario(
 	id int not null auto_increment primary key,
 	email text,
 	senha text,
 	nome text
+);
+
+create table disciplina (
+    id_disciplina integer not null auto_increment,
+    nome varchar(255) not null,
+    ch int not null,
+    id_aluno int not null,
+    primary key (id_disciplina),
+    foreign key (id_aluno) references aluno (id_aluno)
 );
 
 select * from aluno;
