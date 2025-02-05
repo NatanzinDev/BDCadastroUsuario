@@ -1,6 +1,6 @@
 package dominio;
 
-public class Aluno {
+public class Aluno implements Comparable<Aluno> {
 
 	@Override
 	public String toString() {
@@ -12,6 +12,15 @@ public class Aluno {
 	private String matricula;
 	private String curso;
 	private String telefone;
+	private String Sexo;
+
+	public String getSexo() {
+		return Sexo;
+	}
+
+	public void setSexo(String sexo) {
+		Sexo = sexo;
+	}
 
 	public int getId() {
 		return id;
@@ -51,6 +60,11 @@ public class Aluno {
 
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
+	}
+
+	@Override
+	public int compareTo(Aluno o) {
+		return nome.compareTo(o.getNome());
 	}
 
 }
