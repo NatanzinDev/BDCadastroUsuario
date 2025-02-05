@@ -24,7 +24,7 @@ public class AlunoDao {
 		int i = 1;
 		
 		if(nome != null && !nome.isEmpty()) {
-			comando.setString(i++, ""+ nome.toString().toUpperCase() + "%");
+			comando.setString(i++, "%"+ nome.toUpperCase() + "%");
 		}
 		
 		ResultSet resultado =  comando.executeQuery();
@@ -34,9 +34,10 @@ public class AlunoDao {
 			Aluno a = new Aluno();
 			
 			a.setId(resultado.getInt("id_aluno"));
+			a.setNome(resultado.getString("nome"));
 			a.setCurso(resultado.getString("curso"));
 			a.setMatricula(resultado.getString("matricula"));
-			a.setTelefone(resultado.getString("telefone"));
+			
 			
 			alunosCadastrados.add(a);
 		}

@@ -128,7 +128,7 @@ public class CadastrarUsuario extends JFrame {
 			exibirMsgErro("Email não pode ser vazio");
 			return;
 		}
-		if (senha == null || senha.isEmpty()) {
+		if (senha.isEmpty()) {
 			exibirMsgErro("Senha não pode ser vazio");
 			return;
 		}

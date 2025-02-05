@@ -55,6 +55,7 @@ public class CadastrarDisciplina extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	@SuppressWarnings("unchecked")
 	public CadastrarDisciplina() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -105,12 +106,17 @@ public class CadastrarDisciplina extends JFrame {
 		cbAluno.getEditor().getEditorComponent().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				try {
-					buscarAluno();
-				} catch (ClassNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				
+								try {
+									buscarAluno();
+								} catch (ClassNotFoundException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							
+						
+					
+				
 			}
 
 			
@@ -137,7 +143,7 @@ public class CadastrarDisciplina extends JFrame {
 	}
 
 	public void buscarAluno() throws ClassNotFoundException {
-		if(cbAluno.getEditor().getItem() == null && cbAluno.getEditor().getItem().toString().length() >= 3) {
+		if(cbAluno.getEditor().getItem() != null && cbAluno.getEditor().getItem().toString().length() >= 3) {
 			AlunoDao dao = new AlunoDao();
 			List<Aluno> alunosEncontrados = new ArrayList<>();
 			
@@ -147,6 +153,8 @@ public class CadastrarDisciplina extends JFrame {
 				
 				alunosSugeridos.clear();
 				alunosSugeridos.addAll(alunosEncontrados);
+				
+				cbAluno.showPopup();
 			}catch(SQLException e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null, "Erro no sistema");
